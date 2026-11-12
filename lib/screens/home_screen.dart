@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recetas_app/widgets/receta_card.dart';
 import 'package:recetas_app/services/recipe_service.dart';
 import 'package:recetas_app/models/receta.dart';
-
+import 'package:recetas_app/screens/detalle_receta_screen.dart';
 class HomeScreen extends StatefulWidget{
   const HomeScreen({super.key});
   @override
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('RecetasApp'),
+        title: const Text('RecetasApp - Claudia Samiha Khalil Martinez'),
         backgroundColor: const Color.fromARGB(255, 154, 44, 10),
       ),
       body: FutureBuilder<List<Receta>>(
@@ -37,10 +37,20 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             itemCount: recetas.length,
             itemBuilder: (context, index) {
-            return RecetaCard(receta: recetas[index]);   
+            return RecetaCard(
+              receta: recetas[index],
+              onTap: () async {
+                final bool? esFavorita=await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    DetalleRecetaScreen(receta: recetas[index]),
+                  ),
+                );
+              },
+            );
             },
           );
-
         },
       ),
     );
